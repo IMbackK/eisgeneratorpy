@@ -26,7 +26,11 @@ PYBIND11_MODULE(_core, m)
 		.def_readwrite("omega", &DataPoint::omega)
 		.def_readwrite("im", &DataPoint::im);
 	py::class_<Range>(m, "Range")
-		.def(py::init<fvalue, fvalue, size_t, bool>(),  py::arg("logI") = false)
+		.def(py::init<fvalue, fvalue, size_t, bool>(),
+			py::arg("startI"),
+			py::arg("endI"),
+			py::arg("countI"),
+			py::arg("logI") = false)
 		.def_readwrite("start", &Range::start)
 		.def_readwrite("end", &Range::end)
 		.def_readwrite("count", &Range::count)
@@ -38,7 +42,6 @@ PYBIND11_MODULE(_core, m)
 		.value("INFO", Log::INFO)
 		.value("WARN", Log::WARN)
 		.value("ERROR", Log::ERROR);
-	m.def("testVector", &testVector);
 	py::add_ostream_redirect(m, "ostream_redirect");
 	m.attr("__version__") = "1.0";
 }
