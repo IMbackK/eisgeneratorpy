@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.15...3.22)
+cmake_minimum_required(VERSION 3.22)
 
-project(eisgeneratorpy VERSION "1.0")
+project(eisgenerator VERSION "1.0")
 
 if(SKBUILD)
   # Scikit-Build does not add your site-packages to the search path

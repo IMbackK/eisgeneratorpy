@@ -1,35 +1,27 @@
 #!/bin/python
 
-import eisgeneratorpy as eis
+import eisgenerator as eis
 
-def printData(data):
-	print('Omega, Re, Im')
-	for i in data:
-		print(f'{i.omega},{i.im.real},{i.im.imag}')
+model = eis.Model("c{1e-6}r{1e3}")
+print(f"model: {model}")
 
-model = eis.Model("C{1e-6}R{1e3}")
-
-eis.Log.level = eis.Log.level.DEBUG
+eis.Log.level = eis.Log.level.WARN
 print(f'set log level: {eis.Log.level}')
 
 with eis.ostream_redirect(stdout=True, stderr=True):
 	data = model.execute(1e6)
-print(data.im)
+print(f"data for omega={data.omega}: {data}")
 
-ranges = list([])
-neededParameters = model.getFlatParametersCount()
-for i in range(neededParameters):
-	ranges.append(eis.Range(1, 1000, 1000, True))
+model = eis.Model("c{1e-6~1e-5}r{1e3~1e4}")
 
 omegaRange = eis.Range(1, 1000, 25, True)
 
-print('Ranges:')
-for eisRange in ranges:
-	print(f'{eisRange.start} {eisRange.end} {eisRange.count}')
-
-neededIterations = model.getRequiredStepsForSweeps(list(ranges))
+neededIterations = model.getRequiredStepsForSweeps()
 print(f'will need {neededIterations} iterations')
-for i in range(neededIterations):
-	#print(f'Spectra {i}:')
-	sweep = model.executeParamByIndex(ranges, omegaRange, i)
-	#printData(sweep)
+sweeps = model.executeAllSweeps(omegaRange)
+
+spectra = eis.EisSpectra()
+spectra.data = sweeps[200]
+spectra.model = model.getModelStrWithParam(200)
+
+print(spectra)

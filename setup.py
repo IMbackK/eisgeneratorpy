@@ -13,14 +13,14 @@ except ImportError:
 from setuptools import find_packages
 
 setup(
-    name="eisgeneratorpy",
-    version="0.0.1",
-    description="a minimal example package (with pybind11)",
-    author="Henry Schreiner",
-    license="MIT",
+    name="eisgenerator",
+    version="1.0.0",
+    description="",
+    author="Carl Philipp Klemm",
+    license="LGPL-3.0",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    cmake_install_dir="src/eisgeneratorpy",
+    cmake_install_dir="src/eisgenerator",
     include_package_data=True,
-    python_requires=">=3.6",
+    python_requires=">=3.8",
 )
