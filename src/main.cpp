@@ -29,6 +29,11 @@ std::string reprDataPoint(const DataPoint& dp)
 	return ss.str();
 }
 
+void logPrint(const std::string& str, Log::Level level)
+{
+	Log(level)<<str;
+}
+
 PYBIND11_MODULE(_core, m)
 {
 	py::class_<Model>(m, "Model")
@@ -94,13 +99,14 @@ PYBIND11_MODULE(_core, m)
 		.def("getFvalueLabels", &EisSpectra::getFvalueLabels)
 		.def("saveToDisk", &EisSpectra::saveToDisk)
 		.def("__repr__", &reprEisSpectra);
-	py::class_<Log>(m, "Log")
-		.def_readwrite_static("level", &Log::level);
 	py::enum_<Log::Level>(m, "Level")
 		.value("DEBUG", Log::DEBUG)
 		.value("INFO", Log::INFO)
 		.value("WARN", Log::WARN)
 		.value("ERROR", Log::ERROR);
+	py::class_<Log>(m, "Log")
+		.def_readwrite_static("level", &Log::level)
+		.def_static("print", &logPrint, py::arg("string"), py::arg("level"));
 	py::register_exception<parse_errror>(m, "ParseError");
 	py::register_exception<file_error>(m, "FileError");
 	py::add_ostream_redirect(m, "ostream_redirect");
