@@ -45,3 +45,5 @@ TorchScript exectution is performed differently than on the C++ and two extra fu
 		1. a 1d, (n) sized tensor containing the model parameters
 		2. a 1d, (n) sized tensor with omega values to calculate the impance at
 	* a 1d complex tensor is returned with the impedance values
+* `eisgenerator.getModelParameters`
+	* returns the model paramters at the given index as a torch.Tensor

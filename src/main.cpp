@@ -54,6 +54,7 @@ PYBIND11_MODULE(_core, m)
 		.def("getCppCode", &Model::getCode)
 		.def("getTorchScript", &Model::getTorchScript)
 		.def("getCompiledFunctionName", &Model::getCompiledFunctionName)
+		.def("getFlatParameters", &Model::getFlatParameters)
 		.def("__repr__", &Model::getModelStr);
 	py::class_<DataPoint>(m, "DataPoint")
 		.def(py::init<std::complex<fvalue>, fvalue>(), py::arg("im") = std::complex<fvalue>(0, 0), py::arg("omega") = 100)

@@ -35,3 +35,15 @@ def getModelFunction(model: Model):
 	return models[fn_name]
 
 
+def getModelParameters(model: Model, index: int):
+	try:
+		import torch
+	except  ModuleNotFoundError:
+		Log.print("Could not import torch, torch must be availble create torch paramter tensors.", Log.level.ERROR)
+		return False
+
+	model.resolveSteps(index)
+	eisparameters = model.getFlatParameters()
+
+	parameters = torch.Tensor(eisparameters)
+	return parameters

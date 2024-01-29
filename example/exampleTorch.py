@@ -16,9 +16,8 @@ eis.compileModel(model)
 
 modelFn = eis.getModelFunction(model)
 
-parameters = torch.empty((2))
-parameters[0] = 1e-6
-parameters[1] = 100
+parameters = eis.getModelParameters(model, 0)
 omegas = torch.logspace(0, 5, 10)
+print(f'Parameters:\n{parameters}\nOmegas:\n{omegas}\n')
 
 print(modelFn(parameters, omegas))
