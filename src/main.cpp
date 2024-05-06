@@ -7,6 +7,7 @@
 #include <eisgenerator/model.h>
 #include <eisgenerator/eistype.h>
 #include <eisgenerator/log.h>
+#include <eisgenerator/basicmath.h>
 #include <vector>
 #include <sstream>
 
@@ -44,6 +45,7 @@ PYBIND11_MODULE(_core, m)
 			 py::arg("omega"), py::arg("index") = 0)
 		.def("executeAllSweeps", &Model::executeAllSweeps)
 		.def("getModelStr", &Model::getModelStr)
+		.def("setParamSweepCountClosestTotal", &Model::setParamSweepCountClosestTotal, py::arg("total"))
 		.def("getModelStrWithParam", static_cast<std::string (Model::*)(size_t)>(&Model::getModelStrWithParam),
 			 py::arg("index") = 0)
 		.def("getUuid", &Model::getUuid)
@@ -55,6 +57,8 @@ PYBIND11_MODULE(_core, m)
 		.def("getTorchScript", &Model::getTorchScript)
 		.def("getCompiledFunctionName", &Model::getCompiledFunctionName)
 		.def("getFlatParameters", &Model::getFlatParameters)
+		.def("getParameterCount", &Model::getParameterCount)
+		.def("getRecommendedParamIndices", &Model::getRecommendedParamIndices)
 		.def("__repr__", &Model::getModelStr);
 	py::class_<DataPoint>(m, "DataPoint")
 		.def(py::init<std::complex<fvalue>, fvalue>(), py::arg("im") = std::complex<fvalue>(0, 0), py::arg("omega") = 100)
