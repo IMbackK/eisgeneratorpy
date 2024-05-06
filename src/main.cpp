@@ -57,6 +57,7 @@ PYBIND11_MODULE(_core, m)
 		.def("getTorchScript", &Model::getTorchScript)
 		.def("getCompiledFunctionName", &Model::getCompiledFunctionName)
 		.def("getFlatParameters", &Model::getFlatParameters)
+		.def("getParameterNames", &Model::getParameterNames)
 		.def("getParameterCount", &Model::getParameterCount)
 		.def("getRecommendedParamIndices", &Model::getRecommendedParamIndices)
 		.def("__repr__", &Model::getModelStr);
