@@ -1,0 +1,3 @@
+[submodule "eisgenerator"]
+	path = eisgenerator
+	url = https://github.com/IMbackK/eisgenerator

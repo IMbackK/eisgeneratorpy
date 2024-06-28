@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.27)
 
 project(eisgenerator VERSION "1.0")
 
@@ -13,9 +13,12 @@ endif()
 
 find_package(pybind11 CONFIG REQUIRED)
 
+add_subdirectory(eisgenerator)
+
 pybind11_add_module(_core MODULE src/main.cpp)
 target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
-target_link_libraries(_core PUBLIC -leisgenerator)
+add_dependencies(_core eisgenerator_static)
+target_link_libraries(_core PUBLIC eisgenerator_static tbb)
 install(TARGETS _core DESTINATION .)
 
 

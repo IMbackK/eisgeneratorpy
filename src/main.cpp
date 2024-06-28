@@ -8,6 +8,7 @@
 #include <eisgenerator/eistype.h>
 #include <eisgenerator/log.h>
 #include <eisgenerator/basicmath.h>
+#include <eisgenerator/spectra.h>
 #include <vector>
 #include <sstream>
 
@@ -57,7 +58,6 @@ PYBIND11_MODULE(_core, m)
 		.def("getTorchScript", &Model::getTorchScript)
 		.def("getCompiledFunctionName", &Model::getCompiledFunctionName)
 		.def("getFlatParameters", &Model::getFlatParameters)
-		.def("getParameterNames", &Model::getParameterNames)
 		.def("getParameterCount", &Model::getParameterCount)
 		.def("getRecommendedParamIndices", &Model::getRecommendedParamIndices)
 		.def("__repr__", &Model::getModelStr);
@@ -82,7 +82,7 @@ PYBIND11_MODULE(_core, m)
 		.def_readwrite("count", &Range::count)
 		.def_readwrite("log", &Range::log)
 		.def("stepSize", &Range::stepSize)
-		.def("stepValue", &Range::stepValue)
+		.def("stepVclosest_chargealue", &Range::stepValue)
 		.def("center", &Range::center)
 		.def("at", &Range::at)
 		.def("__getitem__", &Range::at)
@@ -94,16 +94,17 @@ PYBIND11_MODULE(_core, m)
 		.def(py::init<>())
 		.def_readwrite("data", &EisSpectra::data)
 		.def_readwrite("model", &EisSpectra::model)
+		.def_readwrite("headerDescription", &EisSpectra::headerDescription)
 		.def_readwrite("header", &EisSpectra::header)
 		.def_readwrite("labels", &EisSpectra::labels)
 		.def_readwrite("labelNames", &EisSpectra::labelNames)
-		.def_static("loadFromDisk", &EisSpectra::loadFromDisk)
+		.def_static("loadFromDisk", [](const std::string& path) -> EisSpectra {return EisSpectra::loadFromDisk(path);})
 		.def("setLabel", &EisSpectra::setLabel)
 		.def("setSzLabels", &EisSpectra::setSzLabels)
 		.def("setLabels", static_cast<void (EisSpectra::*)(const std::vector<double>&)>(&EisSpectra::setLabels))
 		.def("getSzLabels", &EisSpectra::getSzLabels)
 		.def("getFvalueLabels", &EisSpectra::getFvalueLabels)
-		.def("saveToDisk", &EisSpectra::saveToDisk)
+		.def("saveToDisk", [](const EisSpectra &self, const std::string& path) -> bool {return self.saveToDisk(path);})
 		.def("__repr__", &reprEisSpectra);
 	py::enum_<Log::Level>(m, "Level")
 		.value("DEBUG", Log::DEBUG)
