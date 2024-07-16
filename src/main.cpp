@@ -36,6 +36,12 @@ void logPrint(const std::string& str, Log::Level level)
 	Log(level)<<str;
 }
 
+[[nodiscard]] EisSpectra loadFromString(const std::string& string)
+{
+	std::stringstream ss(string);
+	return EisSpectra::loadFromStream(ss);
+}
+
 PYBIND11_MODULE(_core, m)
 {
 	py::class_<Model>(m, "Model")
@@ -99,6 +105,7 @@ PYBIND11_MODULE(_core, m)
 		.def_readwrite("labels", &EisSpectra::labels)
 		.def_readwrite("labelNames", &EisSpectra::labelNames)
 		.def_static("loadFromDisk", [](const std::string& path) -> EisSpectra {return EisSpectra::loadFromDisk(path);})
+		.def_static("loadFromString", loadFromString)
 		.def("setLabel", &EisSpectra::setLabel)
 		.def("setSzLabels", &EisSpectra::setSzLabels)
 		.def("setLabels", static_cast<void (EisSpectra::*)(const std::vector<double>&)>(&EisSpectra::setLabels))
